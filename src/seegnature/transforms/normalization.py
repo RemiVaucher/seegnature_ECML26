@@ -11,4 +11,5 @@ class NormalizationTransform(TransformerMixin, BaseEstimator):
         return self
 
     def transform(self, X):
-        return (X - X.mean(axis=2)[..., None]) / np.abs(X).max(axis=2)[..., None]
+        X -= X.mean(axis=2)[..., None]
+        return  X / np.abs(X).max(axis=2)[..., None]

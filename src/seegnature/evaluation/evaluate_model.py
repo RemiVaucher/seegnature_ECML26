@@ -3,7 +3,7 @@ from typing import Optional
 import numpy as np
 import pandas as pd
 from sklearn.base import BaseEstimator
-from sklearn.model_selection import cross_validate
+from sklearn.model_selection import cross_validate, StratifiedKFold
 
 
 def evaluate_model(
@@ -15,12 +15,12 @@ def evaluate_model(
 ) -> pd.DataFrame:
     kwargs = {
         "scoring": ["accuracy", "f1", "roc_auc", "d2_brier_score"],
-        "cv": 5,
         "n_jobs": 5,
         "verbose": 1,
-        "return_train_score": True,
+        "return_train_score": True
     }
     kwargs.update(cross_validate_kwargs)
+    cv = StratifiedKFold(n_splits = 5, shuffle = True, random_state = random_state)
     scores: dict[str, np.ndarray] = cross_validate(estimator=model, X=X, y=y, **kwargs)
     test_df = pd.DataFrame(
         {"score": scores["test_score"]}

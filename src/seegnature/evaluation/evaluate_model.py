@@ -21,7 +21,7 @@ def evaluate_model(
     }
     kwargs.update(cross_validate_kwargs)
     cv = StratifiedKFold(n_splits = 5, shuffle = True, random_state = random_state)
-    scores: dict[str, np.ndarray] = cross_validate(estimator=model, X=X, y=y, **kwargs)
+    scores: dict[str, np.ndarray] = cross_validate(estimator=model, X=X, y=y, cv=cv, **kwargs)
     test_df = pd.DataFrame(
         {"score": scores["test_score"]}
         if "test_score" in scores

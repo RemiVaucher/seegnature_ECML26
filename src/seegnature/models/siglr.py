@@ -44,6 +44,7 @@ class SigLR(ClassifierMixin, BaseEstimator):
                 l1_ratio=self.l1_ratio,
                 solver="lbfgs" if self.l1_ratio == 0.0 else "saga",
                 random_state=self.random_state,
+                max_iter = 200
             ),
         ]
 

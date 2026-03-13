@@ -15,7 +15,7 @@ def evaluate_model(
 ) -> pd.DataFrame:
     kwargs = {
         "scoring": ["accuracy", "f1", "roc_auc", "d2_brier_score"],
-        "n_jobs": 5,
+        "n_jobs": -1,
         "verbose": 1,
         "return_train_score": True
     }

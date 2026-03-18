@@ -30,7 +30,7 @@ class ATCNetClassifier(ClassifierMixin, BaseEstimator):
         super().__init__()
         self.lr = lr
         self.max_epochs = max_epochs
-        self.patience = 300
+        self.patience = patience
         self.batch_size = batch_size
         self.data_freq = data_freq
         self.random_state = random_state
@@ -43,7 +43,8 @@ class ATCNetClassifier(ClassifierMixin, BaseEstimator):
         y_encoded = self.label_encoder_.fit_transform(y)
         self.classes_ = self.label_encoder_.classes_
 
-        set_random_seeds(seed=self.random_state, cuda=torch.cuda.is_available())
+        if self.random_state is not None:
+            set_random_seeds(seed=self.random_state, cuda=torch.cuda.is_available())
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
 

@@ -17,6 +17,7 @@ class SigLR(ClassifierMixin, BaseEstimator):
         lead_lag_aug=False,
         l1_ratio=0.0,
         normalization=True,
+        max_iter=200,
         random_state=None,
     ) -> None:
         super().__init__()
@@ -25,6 +26,7 @@ class SigLR(ClassifierMixin, BaseEstimator):
         self.lead_lag_aug = lead_lag_aug
         self.l1_ratio = l1_ratio
         self.normalization = normalization
+        self.max_iter = max_iter
         self.random_state = random_state
 
     def fit(self, X, y):
@@ -44,7 +46,7 @@ class SigLR(ClassifierMixin, BaseEstimator):
                 l1_ratio=self.l1_ratio,
                 solver="lbfgs" if self.l1_ratio == 0.0 else "saga",
                 random_state=self.random_state,
-                max_iter = 200
+                max_iter=self.max_iter,
             ),
         ]
 

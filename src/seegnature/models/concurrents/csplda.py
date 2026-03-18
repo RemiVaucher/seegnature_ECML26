@@ -24,7 +24,7 @@ class CSPLDA(ClassifierMixin, BaseEstimator):
             CSP(self.csp_nb_components), LinearDiscriminantAnalysis()
         )
 
-        self.pipeline_.fit(X, y)
+        self.pipeline_.fit(X, y_encoded)
 
         self.is_fitted_ = True
         return self

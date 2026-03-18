@@ -15,12 +15,14 @@ class CSPSVM(ClassifierMixin, BaseEstimator):
         self,
         csp_nb_components: int = 10,
         svm_c: float = 0.1,
+        svm_probability=True,
         random_state: Optional[int] = None,
     ) -> None:
         super().__init__()
         self.csp_nb_components = csp_nb_components
         self.random_state = random_state
         self.svm_c = svm_c
+        self.svm_probability = svm_probability
 
     def fit(self, X, y):
         check_classification_targets(y)
@@ -31,10 +33,14 @@ class CSPSVM(ClassifierMixin, BaseEstimator):
 
         self.pipeline_ = make_pipeline(
             CSP(self.csp_nb_components),
-            SVC(C=self.svm_c, random_state=self.random_state),
+            SVC(
+                C=self.svm_c,
+                probability=self.svm_probability,
+                random_state=self.random_state,
+            ),
         )
 
-        self.pipeline_.fit(X, y)
+        self.pipeline_.fit(X, y_encoded)
 
         self.is_fitted_ = True
         return self

@@ -40,7 +40,8 @@ class EEGConformerClassifier(ClassifierMixin, BaseEstimator):
         y_encoded = self.label_encoder_.fit_transform(y)
         self.classes_ = self.label_encoder_.classes_
 
-        set_random_seeds(seed=self.random_state, cuda=torch.cuda.is_available())
+        if self.random_state is not None:
+            set_random_seeds(seed=self.random_state, cuda=torch.cuda.is_available())
 
         device = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -63,7 +64,7 @@ class EEGConformerClassifier(ClassifierMixin, BaseEstimator):
 
         self.pipeline_ = make_pipeline(*steps)
 
-        self.pipeline_.fit(X, y)
+        self.pipeline_.fit(X, y_encoded)
 
         self.is_fitted_ = True
         return self
